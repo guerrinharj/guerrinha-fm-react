@@ -23,10 +23,15 @@ export default function App() {
 
   return (
     <div className="container">
-      <h1>guerrinha</h1>
-      <Player />
-      <hr />
-      <Chat />
+      <div className="layout">
+        <div className="chat-section">
+          <Chat />
+        </div>
+        <div className="player-section">
+        <h1>guerrinha</h1>
+          <Player />
+        </div>
+      </div>
     </div>
-  );
+  );  
 }

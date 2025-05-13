@@ -20,9 +20,7 @@ export default function Chat() {
             dispatch(addMessage(data));
         };
 
-        return () => {
-            socket.close();
-        };
+        return () => socket.close();
     }, [dispatch]);
 
     useEffect(() => {
@@ -31,60 +29,86 @@ export default function Chat() {
         }
     }, [messages]);
 
-        const sendMessage = () => {
-            const trimmedUser = username.trim();
-            const trimmedMsg = message.trim();
-            const socket = chatSocketRef.current;
-        
-            if (!trimmedUser || !trimmedMsg || !socket) return;
-        
-            // Only send if WebSocket is ready
-            if (socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify({
-                username: trimmedUser,
-                message: trimmedMsg
-            }));
-            setMessage("");
-            } else {
-                console.warn("WebSocket not open yet.");
-            }
-        };      
+    const sendMessage = () => {
+        const trimmedUser = username.trim();
+        const trimmedMsg = message.trim();
+        const socket = chatSocketRef.current;
+
+        if (!trimmedUser || !trimmedMsg || !socket) return;
+
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({ username: trimmedUser, message: trimmedMsg }));
+        setMessage("");
+        } else {
+            console.warn("WebSocket not open yet.");
+        }
+    };
 
     return (
-        <div>
-        <h3>chat</h3>
+        <div style={{ position: "relative", height: "100%", display: "flex", flexDirection: "column" }}>
         <div
-            id="chat-box"
             ref={chatBoxRef}
             style={{
-            maxHeight: "200px",
+            flex: 1,
             overflowY: "auto",
-            border: "1px solid white",
             padding: "1em",
-            margin: "1em auto",
-            width: "80%",
+            paddingBottom: "5em", // leave space so bottom messages aren't hidden
+            width: "100%",
             textAlign: "left"
             }}
         >
             {messages.map((msg, i) => (
-            <p key={i}><strong>{msg.username}:</strong> {msg.message}</p>
+                <p key={i}><strong>{msg.username}:</strong> {msg.message}</p>
             ))}
         </div>
 
-        <input
+        {/* Fixed input bar */}
+        <div style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            display: "flex",
+            gap: "0.5em",
+            backgroundColor: "black",
+            padding: "1em",
+            borderTop: "1px solid white"
+        }}>
+            <input
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="your name"
-            style={{ padding: "0.5em", width: "20%" }}
-        />
-        <input
+            style={{
+                padding: "0.5em",
+                width: "20%",
+                backgroundColor: "black",
+                color: "white",
+                border: "1px solid white"
+            }}
+            />
+            <input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="your message"
-            style={{ padding: "0.5em", width: "50%" }}
             onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-        />
-        <button onClick={sendMessage}>send</button>
+            style={{
+                padding: "0.5em",
+                width: "60%",
+                backgroundColor: "black",
+                color: "white",
+                border: "1px solid white"
+            }}
+            />
+            <button onClick={sendMessage} style={{
+            backgroundColor: "black",
+            color: "white",
+            border: "1px solid white",
+            padding: "0.5em 1em",
+            cursor: "pointer"
+            }}>
+            send
+            </button>
+        </div>
         </div>
     );
 }

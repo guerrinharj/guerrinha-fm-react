@@ -6,7 +6,6 @@ body, html {
     text-align: center;
     text-transform: capitalize;
     margin: 0;
-    padding: 1em;
 }
 
 h1, h3, span, pre {
@@ -27,4 +26,65 @@ button {
 button:hover {
     background-color: white;
     color: black;
+}
+
+body, html, #root {
+    height: 100%;
+  }
+
+.container {
+display: flex;
+flex-direction: column;
+height: 100%;
+}
+
+.layout {
+display: flex;
+flex: 1; /* Take remaining height after header */
+overflow: hidden;
+}
+
+.chat-section {
+flex: 7;
+border-right: 1px solid white;
+padding-right: 1em;
+overflow-y: auto;
+}
+
+.player-section {
+flex: 3;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+padding-left: 1em;
+overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+.layout {
+    flex-direction: column;
+}
+
+.chat-section {
+    border-right: none;
+    padding-right: 0;
+}
+
+.player-section {
+    padding-left: 0;
+}
+}
+  
+  
+
+@media (max-width: 768px) {
+.layout {
+    flex-direction: column;
+}
+
+.chat-section, .player-section {
+    flex: unset;
+    width: 100%;
+}
 }
