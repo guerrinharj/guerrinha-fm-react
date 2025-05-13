@@ -39,83 +39,92 @@ export default function Player() {
     }, [currentTrack, isMuted, dispatch]);
 
     return (
-        <>
-            <pre>{isPlaying ? "online!" : "connecting..."}</pre>
-            <h3>now playing:</h3>
+        <div style={{ position: "relative", height: "100%", display: "flex", flexDirection: "column", width: "100%" }}>
+            {/* MAIN CONTENT */}
+            <div style={{ flex: 1, padding: "1em", paddingBottom: "5em" }}>
+                <pre>{isPlaying ? "online!" : "connecting..."}</pre>
+                <h3>now playing:</h3>
 
-            {currentTrack?.cover_url && (
-                <img
-                    src={currentTrack.cover_url}
-                    alt="cover"
-                    style={{
-                        width: "100%",
-                        maxWidth: "300px",
-                        height: "auto",
-                        marginBottom: "1em",
-                        border: "1px solid grey"
-                    }}
-                />
-            )}
+                {currentTrack?.cover_url && (
+                    <img
+                        src={currentTrack.cover_url}
+                        alt="cover"
+                        style={{
+                            width: "100%",
+                            maxWidth: "300px",
+                            height: "auto",
+                            marginBottom: "1em",
+                            border: "1px solid grey"
+                        }}
+                    />
+                )}
 
-
-            <p>
-                <span>"{currentTrack?.name || "waiting..."}"</span>
-            </p>
-
-            {currentTrack?.album_url ? (
                 <p>
-                    <span>
-                        <a
-                            href={currentTrack.album_url}
-                            style={{
-                                textDecoration: "underline",
-                                color: "inherit"
-                            }}
-                        >
-                            {currentTrack.album}
-                        </a>
-                    </span>
+                    <span>"{currentTrack?.name || "waiting..."}"</span>
                 </p>
-            ) : (
-                <p><span>waiting for album...</span></p>
-            )}
 
-            <p>
-                <span>{currentTrack?.year || "waiting..."}</span>
-            </p>
+                {currentTrack?.album_url ? (
+                    <p>
+                        <span>
+                            <a
+                                href={currentTrack.album_url}
+                                style={{
+                                    textDecoration: "underline",
+                                    color: "inherit"
+                                }}
+                            >
+                                {currentTrack.album}
+                            </a>
+                        </span>
+                    </p>
+                ) : (
+                    <p><span>waiting for album...</span></p>
+                )}
 
-        <div style={{ marginTop: "1em" }}>
-            <button
-                onClick={() => dispatch(setMuted(false))}
-                style={{
-                    font: "inherit",
-                    background: "none",
-                    border: "none",
-                    color: "white",
-                    textDecoration: "underline",
-                    cursor: "pointer",
-                    marginRight: "1em"
-                }}
-            >
-                play
-            </button>
-            <button
-                onClick={() => dispatch(setMuted(true))}
-                style={{
-                    font: "inherit",
-                    background: "none",
-                    border: "none",
-                    color: "white",
-                    textDecoration: "underline",
-                    cursor: "pointer"
-                }}
-            >
-                stop
-            </button>
+                <p>
+                    <span>{currentTrack?.year || "waiting..."}</span>
+                </p>
+
+                <audio ref={playerRef} autoPlay />
+            </div>
+
+            {/* CONTROL BAR */}
+            <div style={{
+                backgroundColor: "black",
+                borderTop: "1px solid white",
+                padding: "1em",
+                display: "flex",
+                justifyContent: "center",
+                gap: "1em",
+                width: "100%"
+            }}>
+                <button
+                    onClick={() => dispatch(setMuted(false))}
+                    style={{
+                        backgroundColor: "black",
+                        color: "white",
+                        border: "1px solid white",
+                        padding: "0.5em 1em",
+                        cursor: "pointer",
+                        font: 'inherit'
+                    }}
+                >
+                    play
+                </button>
+                <button
+                    onClick={() => dispatch(setMuted(true))}
+                    style={{
+                        backgroundColor: "black",
+                        color: "white",
+                        border: "1px solid white",
+                        padding: "0.5em 1em",
+                        cursor: "pointer",
+                        font: 'inherit'
+                    }}
+                >
+                    stop
+                </button>
+            </div>
         </div>
-
-
-            <audio ref={playerRef} autoPlay />
-        </>
     );
 }
