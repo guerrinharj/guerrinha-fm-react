@@ -78,18 +78,37 @@ export default function Player() {
                 />
             )}
 
+        <div style={{ marginTop: "1em" }}>
             <button
                 onClick={() => dispatch(setMuted(false))}
-                style={{ font: "inherit" }}
+                style={{
+                    font: "inherit",
+                    background: "none",
+                    border: "none",
+                    color: "white",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                    marginRight: "1em"
+                }}
             >
                 play
             </button>
             <button
                 onClick={() => dispatch(setMuted(true))}
-                style={{ font: "inherit" }}
+                style={{
+                    font: "inherit",
+                    background: "none",
+                    border: "none",
+                    color: "white",
+                    textDecoration: "underline",
+                    cursor: "pointer"
+                }}
             >
                 stop
             </button>
+        </div>
+
+
             <audio ref={playerRef} autoPlay />
         </>
     );
