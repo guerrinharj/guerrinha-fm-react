@@ -40,10 +40,26 @@ export default function Player() {
 
     return (
         <>
-            <pre>{isPlaying ? "" : "connecting..."}</pre>
+            <pre>{isPlaying ? "online!" : "connecting..."}</pre>
             <h3>now playing:</h3>
+
+            {currentTrack?.cover_url && (
+                <img
+                    src={currentTrack.cover_url}
+                    alt="cover"
+                    style={{
+                        width: "100%",
+                        maxWidth: "300px",
+                        height: "auto",
+                        marginBottom: "1em",
+                        border: "1px solid grey"
+                    }}
+                />
+            )}
+
+
             <p>
-                <span>"{currentTrack?.name || "waiting for data..."}"</span>
+                <span>"{currentTrack?.name || "waiting..."}"</span>
             </p>
 
             {currentTrack?.album_url ? (
@@ -64,19 +80,9 @@ export default function Player() {
                 <p><span>waiting for album...</span></p>
             )}
 
-            {currentTrack?.cover_url && (
-                <img
-                    src={currentTrack.cover_url}
-                    alt="cover"
-                    style={{
-                        width: "100%",
-                        maxWidth: "300px",
-                        height: "auto",
-                        marginBottom: "1em",
-                        border: "1px solid grey"
-                    }}
-                />
-            )}
+            <p>
+                <span>{currentTrack?.year || "waiting..."}</span>
+            </p>
 
         <div style={{ marginTop: "1em" }}>
             <button
