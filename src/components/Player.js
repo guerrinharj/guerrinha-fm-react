@@ -42,7 +42,6 @@ export default function Player() {
         <div style={{ position: "relative", height: "100%", display: "flex", flexDirection: "column", width: "100%" }}>
             {/* MAIN CONTENT */}
             <div style={{ flex: 1, padding: "1em", paddingBottom: "5em" }}>
-                <pre>{isPlaying ? "online!" : "connecting..."}</pre>
                 <h3>now playing:</h3>
 
                 {currentTrack?.cover_url && (
@@ -68,6 +67,8 @@ export default function Player() {
                         <span>
                             <a
                                 href={currentTrack.album_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 style={{
                                     textDecoration: "underline",
                                     color: "inherit"
@@ -96,7 +97,9 @@ export default function Player() {
                 display: "flex",
                 justifyContent: "center",
                 gap: "1em",
-                width: "100%"
+                width: "100%",
+                position: "absolute",
+                bottom: "0"
             }}>
                 <button
                     onClick={() => dispatch(setMuted(false))}

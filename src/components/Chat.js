@@ -45,7 +45,7 @@ export default function Chat() {
 
     useEffect(() => {
         if (chatBoxRef.current) {
-            chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+            chatBoxRef.current.scrollTop = 0; // scroll to top (newest message first)
         }
     }, [messages]);
 
@@ -77,7 +77,7 @@ export default function Chat() {
                     textAlign: "left"
                 }}
             >
-                {messages.map((msg, i) => (
+                {[...messages].reverse().map((msg, i) => (
                     <p key={i}>
                         <strong style={{ color: getUsernameColor(msg.username) }}>
                             {msg.username}:
