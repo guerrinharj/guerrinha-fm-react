@@ -28,7 +28,7 @@ export default function App() {
           <Chat />
         </div>
         <div className="player-section">
-        <h1>guerrinha</h1>
+        <h1>Guerrinha</h1>
           <Player />
         </div>
       </div>

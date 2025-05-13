@@ -2,6 +2,26 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "../redux/chatSlice";
 
+// 7 rainbow colors
+const RAINBOW_COLORS = [
+    "#FF0000", // Red
+    "#FF7F00", // Orange
+    "#FFFF00", // Yellow
+    "#00FF00", // Green
+    "#0000FF", // Blue
+    "#4B0082", // Indigo
+    "#8B00FF"  // Violet
+];
+
+// Simple hash function to deterministically pick a color index
+function getUsernameColor(username) {
+    let hash = 0;
+    for (let i = 0; i < username.length; i++) {
+        hash = username.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return RAINBOW_COLORS[Math.abs(hash) % RAINBOW_COLORS.length];
+}
+
 export default function Chat() {
     const dispatch = useDispatch();
     const messages = useSelector((state) => state.chat.messages);
@@ -16,7 +36,7 @@ export default function Chat() {
         chatSocketRef.current = socket;
 
         socket.onmessage = (event) => {
-        const data = JSON.parse(event.data);
+            const data = JSON.parse(event.data);
             dispatch(addMessage(data));
         };
 
@@ -38,7 +58,7 @@ export default function Chat() {
 
         if (socket.readyState === WebSocket.OPEN) {
             socket.send(JSON.stringify({ username: trimmedUser, message: trimmedMsg }));
-        setMessage("");
+            setMessage("");
         } else {
             console.warn("WebSocket not open yet.");
         }
@@ -46,69 +66,77 @@ export default function Chat() {
 
     return (
         <div style={{ position: "relative", height: "100%", display: "flex", flexDirection: "column" }}>
-        <div
-            ref={chatBoxRef}
-            style={{
-            flex: 1,
-            overflowY: "auto",
-            padding: "1em",
-            paddingBottom: "5em", // leave space so bottom messages aren't hidden
-            width: "100%",
-            textAlign: "left"
-            }}
-        >
-            {messages.map((msg, i) => (
-                <p key={i}><strong>{msg.username}:</strong> {msg.message}</p>
-            ))}
-        </div>
+            <div
+                ref={chatBoxRef}
+                style={{
+                    flex: 1,
+                    overflowY: "auto",
+                    padding: "1em",
+                    paddingBottom: "5em",
+                    width: "100%",
+                    textAlign: "left"
+                }}
+            >
+                {messages.map((msg, i) => (
+                    <p key={i}>
+                        <strong style={{ color: getUsernameColor(msg.username) }}>
+                            {msg.username}:
+                        </strong>{" "}
+                        {msg.message}
+                    </p>
+                ))}
+            </div>
 
-        {/* Fixed input bar */}
-        <div style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            display: "flex",
-            gap: "0.5em",
-            backgroundColor: "black",
-            padding: "1em",
-            borderTop: "1px solid white"
-        }}>
-            <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="your name"
-            style={{
-                padding: "0.5em",
-                width: "20%",
+            <div style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                display: "flex",
+                gap: "0.5em",
                 backgroundColor: "black",
-                color: "white",
-                border: "1px solid white"
-            }}
-            />
-            <input
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="your message"
-            onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-            style={{
-                padding: "0.5em",
-                width: "60%",
-                backgroundColor: "black",
-                color: "white",
-                border: "1px solid white"
-            }}
-            />
-            <button onClick={sendMessage} style={{
-            backgroundColor: "black",
-            color: "white",
-            border: "1px solid white",
-            padding: "0.5em 1em",
-            cursor: "pointer"
+                padding: "1em",
+                borderTop: "1px solid white",
+                width: "100%"
             }}>
-            send
-            </button>
-        </div>
+                <input
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="your name"
+                    style={{
+                        padding: "0.5em",
+                        width: "20%",
+                        backgroundColor: "black",
+                        color: "white",
+                        border: "1px solid white",
+                        font: 'inherit'
+                    }}
+                />
+                <input
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="your message"
+                    onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                    style={{
+                        padding: "0.5em",
+                        width: "60%",
+                        backgroundColor: "black",
+                        color: "white",
+                        border: "1px solid white",
+                        font: 'inherit'
+                    }}
+                />
+                <button onClick={sendMessage} style={{
+                    backgroundColor: "black",
+                    color: "white",
+                    border: "1px solid white",
+                    padding: "0.5em 1em",
+                    cursor: "pointer",
+                    font: 'inherit'
+                }}>
+                    send
+                </button>
+            </div>
         </div>
     );
 }

@@ -5,7 +5,6 @@ import { playNext, setPlaying, setMuted } from "../redux/radioSlice";
 export default function Player() {
     const playerRef = useRef(null);
     const dispatch = useDispatch();
-
     const { currentTrack, isPlaying, isMuted, queue } = useSelector((state) => state.radio);
 
     useEffect(() => {
@@ -25,25 +24,45 @@ export default function Player() {
 
         player.play()
             .then(() => dispatch(setPlaying(true)))
-            .catch(() => dispatch(setPlaying(false)));
+            .catch((err) => {
+                console.error("Audio play failed", err);
+                dispatch(setPlaying(false));
+            });
 
-        player.addEventListener("ended", () => {
+        const handleEnded = () => {
             dispatch(setPlaying(false));
             dispatch(playNext());
-        });
-
-        return () => {
-            player.removeEventListener("ended", () => {});
         };
+
+        player.addEventListener("ended", handleEnded);
+        return () => player.removeEventListener("ended", handleEnded);
     }, [currentTrack, isMuted, dispatch]);
 
     return (
         <>
             <pre>{isPlaying ? "" : "connecting..."}</pre>
             <h3>now playing:</h3>
-            <p><span>"{currentTrack?.name || "waiting for data..."}"</span></p>
+            <p>
+                <span>"{currentTrack?.name || "waiting for data..."}"</span>
+            </p>
 
-            <p><span>from <a href={currentTrack.album_url}>"{currentTrack?.album || "waiting for data..."}"</a> </span></p>
+            {currentTrack?.album_url ? (
+                <p>
+                    <span>
+                        <a
+                            href={currentTrack.album_url}
+                            style={{
+                                textDecoration: "underline",
+                                color: "inherit"
+                            }}
+                        >
+                            {currentTrack.album}
+                        </a>
+                    </span>
+                </p>
+            ) : (
+                <p><span>waiting for album...</span></p>
+            )}
 
             {currentTrack?.cover_url && (
                 <img
@@ -59,9 +78,19 @@ export default function Player() {
                 />
             )}
 
-            <button onClick={() => dispatch(setMuted(false))}>play</button>
-            <button onClick={() => dispatch(setMuted(true))}>stop</button>
-            <audio ref={playerRef} autoPlay muted />
+            <button
+                onClick={() => dispatch(setMuted(false))}
+                style={{ font: "inherit" }}
+            >
+                play
+            </button>
+            <button
+                onClick={() => dispatch(setMuted(true))}
+                style={{ font: "inherit" }}
+            >
+                stop
+            </button>
+            <audio ref={playerRef} autoPlay />
         </>
     );
 }
