@@ -2,19 +2,26 @@ body, html {
     background: black;
     color: white;
     font-family: serif;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -1px;
     font-style: italic;
     text-align: center;
     margin: 0;
+    overflow: hidden;
 }
 
 h1, h3, span, pre {
     margin: 1em 0;
 }
 
+pre {
+    font-family: inherit;
+}
+
 button {
     background: black;
     color: white;
-    border: solid 1px white;
+    border-bottom: solid 1px white;
     padding: 1em 2em;
     margin: 1em;
     cursor: pointer;
@@ -75,6 +82,26 @@ overflow-y: auto;
 }
   
   
+
+/* Hides scrollbars but allows scrolling */
+.chat-section, .player-section {
+    overflow-y: scroll;
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* IE 10+ */
+}
+
+.chat-section::-webkit-scrollbar,
+.player-section::-webkit-scrollbar {
+    display: none;                /* Chrome, Safari, Opera */
+}
+
+
+div::-webkit-scrollbar {
+    display: none;
+}
+
+
+
 
 @media (max-width: 768px) {
 .layout {

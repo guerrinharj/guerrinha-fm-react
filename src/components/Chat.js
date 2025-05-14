@@ -70,11 +70,14 @@ export default function Chat() {
                 ref={chatBoxRef}
                 style={{
                     flex: 1,
-                    overflowY: "auto",
-                    padding: "1em",
+                    overflowY: "scroll",
+                    overflowX: "hidden",
+                    paddingLeft: "1em",
                     paddingBottom: "5em",
                     width: "100%",
-                    textAlign: "left"
+                    textAlign: "left",
+                    scrollbarWidth: "none",            // Firefox
+                    msOverflowStyle: "none"            // IE and Edge
                 }}
             >
                 {[...messages].reverse().map((msg, i) => (
@@ -108,7 +111,7 @@ export default function Chat() {
                         width: "20%",
                         backgroundColor: "black",
                         color: "white",
-                        border: "1px solid white",
+                        border: "none",
                         font: 'inherit'
                     }}
                 />
@@ -122,14 +125,14 @@ export default function Chat() {
                         width: "60%",
                         backgroundColor: "black",
                         color: "white",
-                        border: "1px solid white",
+                        border: "none",
                         font: 'inherit'
                     }}
                 />
                 <button onClick={sendMessage} style={{
                     backgroundColor: "black",
                     color: "white",
-                    border: "1px solid white",
+                    border: "none",
                     padding: "0.5em 1em",
                     cursor: "pointer",
                     font: 'inherit'

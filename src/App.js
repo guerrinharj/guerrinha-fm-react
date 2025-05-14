@@ -34,7 +34,7 @@ export default function App() {
             margin: "2em"
           }}>
             <h1 style={{ margin: 0 }}>Guerrinha</h1>
-            <pre style={{ margin: 0 }}>{isPlaying ? "online!" : "connecting..."}</pre>
+            <pre style={{ margin: 0 }}>{isPlaying ? "online" : "connecting..."}</pre>
           </div>
           <Player />
         </div>

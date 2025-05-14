@@ -5,7 +5,7 @@ import { playNext, setPlaying, setMuted } from "../redux/radioSlice";
 export default function Player() {
     const playerRef = useRef(null);
     const dispatch = useDispatch();
-    const { currentTrack, isPlaying, isMuted, queue } = useSelector((state) => state.radio);
+    const { currentTrack, isMuted, queue } = useSelector((state) => state.radio);
 
     useEffect(() => {
         if (!currentTrack && queue.length > 0) {
@@ -106,7 +106,7 @@ export default function Player() {
                     style={{
                         backgroundColor: "black",
                         color: "white",
-                        border: "1px solid white",
+                        border: "none",
                         padding: "0.5em 1em",
                         cursor: "pointer",
                         font: 'inherit'
@@ -119,7 +119,7 @@ export default function Player() {
                     style={{
                         backgroundColor: "black",
                         color: "white",
-                        border: "1px solid white",
+                        border: "none",
                         padding: "0.5em 1em",
                         cursor: "pointer",
                         font: 'inherit'
