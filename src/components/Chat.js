@@ -82,7 +82,7 @@ export default function Chat() {
             >
                 {[...messages].reverse().map((msg, i) => (
                     <p key={i}>
-                        <strong style={{ color: getUsernameColor(msg.username) }}>
+                        <strong style={{ color: 'white' }}>
                             {msg.username}:
                         </strong>{" "}
                         {msg.message}

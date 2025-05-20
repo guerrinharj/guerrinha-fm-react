@@ -31,7 +31,7 @@ export default function App() {
         <div className="player-section">
           <div style={{
             paddingBottom: "0.5em",
-            margin: "2em"
+            margin: "1em"
           }}>
             <h1 style={{ margin: 0 }}>Guerrinha</h1>
             <pre style={{ margin: 0 }}>{isPlaying ? "online" : "connecting..."}</pre>
